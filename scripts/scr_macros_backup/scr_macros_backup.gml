@@ -1,0 +1,10 @@
+//#macro RIGHT  0
+//#macro JUMP  1
+//#macro LEFT  2
+//#macro FALL  3
+//#macro IDLE 4
+//#macro IDLE_L 5
+//#macro FALL_L 6
+//#macro JUMP_L 7
+//#macro JUMP_TRANS 8
+//#macro JUMP_TRANS_L 9

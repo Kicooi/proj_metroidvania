@@ -1,0 +1,13 @@
+{
+  "$GMScript":"",
+  "%Name":"scr_macros_backup",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_macros_backup",
+  "parent":{
+    "name":"Notes",
+    "path":"folders/Notes.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
