@@ -38,10 +38,10 @@ function __input_config_verbs()
             left:  [input_binding_gamepad_axis(gp_axislh, true),  input_binding_gamepad_button(gp_padl)],
             right: [input_binding_gamepad_axis(gp_axislh, false), input_binding_gamepad_button(gp_padr)],
             
-            accept:  input_binding_gamepad_button(gp_face1),
-            cancel:  input_binding_gamepad_button(gp_face2),
-            action:  input_binding_gamepad_button(gp_face3),
-            special: input_binding_gamepad_button(gp_face4),
+            accept:  input_binding_gamepad_button(gp_face1), // Xbox: A // Playstation: X // Nintendo: B //
+            cancel:  input_binding_gamepad_button(gp_face2), // Xbox: B // Playstation: O // Nintendo: A //
+            action:  input_binding_gamepad_button(gp_face3), // Xbox: X // Playstation: □ // Nintendo: Y //
+            special: input_binding_gamepad_button(gp_face4), // Xbox: Y // Playstation: △ // Nintendo: X //
             
             aim_up:    input_binding_gamepad_axis(gp_axisrv, true),
             aim_down:  input_binding_gamepad_axis(gp_axisrv, false),

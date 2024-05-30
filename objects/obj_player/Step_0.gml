@@ -22,7 +22,7 @@ switch (state) {
 		if (jump) {state = JUMP}
 		if (crouch) {
 			crouching = true;
-			state = CROUCH;
+			state = CROUCH; /// CHANGE TO CROUCH_TRANS (wip)///
 		}
 	break
 	#endregion
@@ -43,6 +43,10 @@ switch (state) {
 		if xspd < 0 {state = TURN}
 		if xspd == 0 && right == 0 {state = IDLE};
 		if (jump) {state = JUMP}
+		if (crouch) {
+			crouching = true;
+			state = CROUCH_WALK;
+		}
 	break;
 	#endregion
 	
@@ -60,6 +64,11 @@ switch (state) {
 		// Assign Sprites/Change States //
 		if ceil(image_index) == image_number-1 && left == 0 {state = IDLE_L}
 		if ceil(image_index) == image_number-1 && left > 0 {state = RUN_L}	
+		if (jump) {state = JUMP_L}
+		if (crouch) {
+			crouching = true;
+			state = CROUCH_L;
+		}
 		show_debug_message(string(image_index));
 	break;
 	#endregion
@@ -126,24 +135,149 @@ switch (state) {
 	case CROUCH:
 		xspd = (right-left) * move_spd/2;
 		yspd = 6;
-		mask_index = sprite[CROUCH];
+		mask_index = CROUCH;
+		// Check if character has room to stand up when player releases crouch key
 		if (!crouch) && crouching == true {
 			if place_empty(x,y-11, obj_wall) {
 				crouching = false;
 			}
 		}
 		if (!crouch) && crouching == false {
-			y -= 20;
+			y -= 21;
 			state = IDLE;
 		}
 		
-		//Collisions
+		// Normal Collisions
 		if place_meeting(x, y + yspd, obj_wall) {
 			yspd = 0;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
 			xspd = 0;
 		}
+		if left > 0 && right == 0 {state = CROUCH_L}
+		if xspd < 0 {state = CROUCH_WALK_L}
+		if xspd > 0 {state = CROUCH_WALK}
+		if (jump) {state = JUMP}
+	break;
+	#endregion
+	
+	#region CROUCH_WALK
+	case CROUCH_WALK:
+		xspd = (right-left) * move_spd/2;
+		yspd = 6;
+		mask_index = sprite[CROUCH];
+		// Check if character has room to stand up when player releases crouch key
+		if (!crouch) && crouching == true {
+			if place_empty(x,y-11, obj_wall) {
+				crouching = false;
+			}
+		}
+		if (!crouch) && crouching == false {
+			y -= 21;
+			state = RUN;
+		}
+		
+		// Collisions 
+		if place_meeting(x, y + yspd, obj_wall) {
+			yspd = 0;
+		}
+		if place_meeting(x+xspd, y, obj_wall) {
+			xspd = 0;
+		}
+		
+		// Update sprites
+		if xspd == 0 {state = CROUCH}
+		if xspd < 0 {state = CROUCH_WALK_L}
+		if (jump) {state = JUMP}
+		
+	break;
+	#endregion
+	
+	#region CROUCH TRANSITION >>>> WIP <<<<<
+	case CROUCH_TRANS:
+		xspd = (right-left) * move_spd;
+		yspd = 0;
+		mask_index = CROUCH_TRANS;
+		
+		if crouching == true {
+			alarm[2] = 5;	
+		}
+		
+		//collison
+		if place_meeting(x, y + yspd, obj_wall) {
+			yspd = 0;
+		}
+		if place_meeting(x+xspd, y, obj_wall) {
+			xspd = 0;
+		}
+		
+		
+		
+	break;
+	#endregion
+	
+	#region CROUCH_WALK_L
+	case CROUCH_WALK_L:
+		xspd = (right-left) * move_spd/2;
+		yspd = 6;
+		mask_index = sprite[CROUCH_L];
+		// Check if character has room to stand up when player releases crouch key
+		if (!crouch) && crouching == true {
+			if place_empty(x,y-11, obj_wall) {
+				crouching = false;
+			}
+		}
+		if (!crouch) && crouching == false {
+			y -= 21;
+			state = RUN_L;
+		}
+		
+		// Collisions 
+		if place_meeting(x, y + yspd, obj_wall) {
+			yspd = 0;
+		}
+		if place_meeting(x+xspd, y, obj_wall) {
+			xspd = 0;
+		}
+		
+		// Update sprites
+		if xspd == 0 {state = CROUCH_L}
+		if xspd > 0 {state = CROUCH_WALK}
+		if (jump) {state = JUMP_L}
+		
+	break;
+	#endregion
+	
+	#region CROUCH_L
+	case CROUCH_L:
+		xspd = (right-left) * move_spd/2;
+		yspd = 6;
+		mask_index = sprite[CROUCH_L];
+		// Check if character has room to stand up when player releases crouch key
+		if (!crouch) && crouching == true {
+			if place_empty(x,y-11, obj_wall) {
+				crouching = false;
+			}
+		}
+		if (!crouch) && crouching == false {
+			y -= 21;
+			state = IDLE_L;
+		}
+		
+		// Normal Collisions
+		if place_meeting(x, y + yspd, obj_wall) {
+			yspd = 0;
+		}
+		if place_meeting(x+xspd, y, obj_wall) {
+			xspd = 0;
+		}
+		
+		// switch directions
+		if left == 0 && right > 0 {state = CROUCH}
+		if xspd < 0 {state = CROUCH_WALK_L}
+		if xspd > 0 {state = CROUCH_WALK}
+		if (jump) {state = JUMP_L}
+		
 	break;
 	#endregion
 	
@@ -163,6 +297,10 @@ switch (state) {
 		if xspd > 0 {state = TURN_L}
 		if xspd < 0 {state = RUN_L}
 		if (jump) {state = JUMP_L}
+		if (crouch) {
+			crouching = true;
+			state = CROUCH_L;
+		}
 	break;
 	#endregion
 	
@@ -182,6 +320,10 @@ switch (state) {
 		if xspd > 0 {state = TURN_L}
 		if xspd == 0 && left == 0 {state = IDLE_L};
 		if (jump) {state = JUMP_L}
+		if (crouch) {
+			crouching = true;
+			state = CROUCH_WALK_L;
+		}
 	break;
 	#endregion
 	
@@ -198,7 +340,12 @@ switch (state) {
 		}
 		// Assign Sprites/Change States //
 		if ceil(image_index) == image_number-1 && right == 0 {state = IDLE}
-		if ceil(image_index) == image_number-1 && right > 0 {state = RUN}	
+		if ceil(image_index) == image_number-1 && right > 0 {state = RUN}
+		if (jump) {state = JUMP}
+		if (crouch) {
+			crouching = true;
+			state = CROUCH;
+		}
 	break;
 	#endregion
 	
