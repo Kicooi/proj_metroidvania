@@ -9,7 +9,7 @@ switch (state) {
 		xspd = (right-left) * move_spd;
 		yspd = 6;
 		// Collisions 
-		if place_meeting(x, y + 1, obj_wall) {
+		if place_meeting(x, y+yspd, obj_wall) {
 			yspd = 0;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
@@ -21,8 +21,7 @@ switch (state) {
 		if xspd < 0 {state = TURN}
 		if (jump) {state = JUMP}
 		if (crouch) {
-			crouching = true;
-			state = CROUCH; /// CHANGE TO CROUCH_TRANS (wip)///
+			state = CROUCH_TRANS; 
 		}
 	break
 	#endregion
@@ -44,8 +43,7 @@ switch (state) {
 		if xspd == 0 && right == 0 {state = IDLE};
 		if (jump) {state = JUMP}
 		if (crouch) {
-			crouching = true;
-			state = CROUCH_WALK;
+			state = CROUCH_TRANS;
 		}
 	break;
 	#endregion
@@ -139,13 +137,15 @@ switch (state) {
 		// Check if character has room to stand up when player releases crouch key
 		if (!crouch) && crouching == true {
 			if place_empty(x,y-11, obj_wall) {
-				crouching = false;
+				y -= 11;
+				alarm[2] = 5;
+				state = CROUCH_TRANS;
 			}
 		}
-		if (!crouch) && crouching == false {
-			y -= 21;
-			state = IDLE;
-		}
+		//if (!crouch) && crouching == false {
+		//	y -= 21;
+		//	state = IDLE;
+		//}
 		
 		// Normal Collisions
 		if place_meeting(x, y + yspd, obj_wall) {
@@ -157,7 +157,11 @@ switch (state) {
 		if left > 0 && right == 0 {state = CROUCH_L}
 		if xspd < 0 {state = CROUCH_WALK_L}
 		if xspd > 0 {state = CROUCH_WALK}
-		if (jump) {state = JUMP}
+		if (jump) {
+			state = JUMP;
+			y -= 11;
+			crouching = false;
+		}
 	break;
 	#endregion
 	
@@ -169,12 +173,10 @@ switch (state) {
 		// Check if character has room to stand up when player releases crouch key
 		if (!crouch) && crouching == true {
 			if place_empty(x,y-11, obj_wall) {
-				crouching = false;
+				y -= 11;
+				alarm[2] = 5;
+				state = CROUCH_TRANS;
 			}
-		}
-		if (!crouch) && crouching == false {
-			y -= 21;
-			state = RUN;
 		}
 		
 		// Collisions 
@@ -188,20 +190,51 @@ switch (state) {
 		// Update sprites
 		if xspd == 0 {state = CROUCH}
 		if xspd < 0 {state = CROUCH_WALK_L}
-		if (jump) {state = JUMP}
+		if (jump) {
+			state = JUMP;
+			y -= 11;
+			crouching = false;
+		}
 		
 	break;
 	#endregion
 	
-	#region CROUCH TRANSITION >>>> WIP <<<<<
+	#region CROUCH TRANSITION
 	case CROUCH_TRANS:
 		xspd = (right-left) * move_spd;
 		yspd = 0;
 		mask_index = CROUCH_TRANS;
 		
-		if crouching == true {
+		if crouching == false {
+			crouching = true;
+			y += 5;
 			alarm[2] = 5;	
+		} 
+		
+		//collison
+		if place_meeting(x, y + yspd, obj_wall) {
+			yspd = 0;
 		}
+		if place_meeting(x+xspd, y, obj_wall) {
+			xspd = 0;
+		}
+		
+		
+		
+	break;
+	#endregion
+	
+	#region CROUCH TRANSITION_LEFT
+	case CROUCH_TRANS_L:
+		xspd = (right-left) * move_spd;
+		yspd = 0;
+		mask_index = CROUCH_TRANS_L;
+		
+		if crouching == false {
+			crouching = true;
+			y += 5;
+			alarm[3] = 5;	
+		} 
 		
 		//collison
 		if place_meeting(x, y + yspd, obj_wall) {
@@ -224,12 +257,10 @@ switch (state) {
 		// Check if character has room to stand up when player releases crouch key
 		if (!crouch) && crouching == true {
 			if place_empty(x,y-11, obj_wall) {
-				crouching = false;
+				y -= 11;
+				alarm[3] = 5;
+				state = CROUCH_TRANS_L;
 			}
-		}
-		if (!crouch) && crouching == false {
-			y -= 21;
-			state = RUN_L;
 		}
 		
 		// Collisions 
@@ -243,7 +274,11 @@ switch (state) {
 		// Update sprites
 		if xspd == 0 {state = CROUCH_L}
 		if xspd > 0 {state = CROUCH_WALK}
-		if (jump) {state = JUMP_L}
+		if (jump) {
+			state = JUMP_L;
+			y -= 11;
+			crouching = false;
+		}
 		
 	break;
 	#endregion
@@ -256,12 +291,10 @@ switch (state) {
 		// Check if character has room to stand up when player releases crouch key
 		if (!crouch) && crouching == true {
 			if place_empty(x,y-11, obj_wall) {
-				crouching = false;
+				y -= 11;
+				alarm[3] = 5;
+				state = CROUCH_TRANS_L;
 			}
-		}
-		if (!crouch) && crouching == false {
-			y -= 21;
-			state = IDLE_L;
 		}
 		
 		// Normal Collisions
@@ -276,7 +309,11 @@ switch (state) {
 		if left == 0 && right > 0 {state = CROUCH}
 		if xspd < 0 {state = CROUCH_WALK_L}
 		if xspd > 0 {state = CROUCH_WALK}
-		if (jump) {state = JUMP_L}
+		if (jump) {
+			state = JUMP_L;
+			y -= 11;
+			crouching = false;
+		}
 		
 	break;
 	#endregion
@@ -298,8 +335,7 @@ switch (state) {
 		if xspd < 0 {state = RUN_L}
 		if (jump) {state = JUMP_L}
 		if (crouch) {
-			crouching = true;
-			state = CROUCH_L;
+			state = CROUCH_TRANS_L; 
 		}
 	break;
 	#endregion
@@ -321,8 +357,7 @@ switch (state) {
 		if xspd == 0 && left == 0 {state = IDLE_L};
 		if (jump) {state = JUMP_L}
 		if (crouch) {
-			crouching = true;
-			state = CROUCH_WALK_L;
+			state = CROUCH_TRANS_L;
 		}
 	break;
 	#endregion
