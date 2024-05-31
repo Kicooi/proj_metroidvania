@@ -4,14 +4,14 @@ jump = input_check_pressed("accept");
 crouch = input_check("special");
 mask_index = IDLE;
 switch (state) {
-	#region IDLE;
+	#region IDLE
 	case IDLE:
 		xspd = (right-left) * move_spd;
 		yspd = 6;
 		// Collisions 
-		if place_meeting(x, y+yspd, obj_wall) {
-			yspd = 0;
-		}
+		//if place_meeting(x+10, y+yspd, obj_wall) {
+		//	yspd = 0;
+		//}
 		if place_meeting(x+xspd, y, obj_wall) {
 			xspd = 0;
 		}
@@ -326,7 +326,7 @@ switch (state) {
 		if place_meeting(x, y + yspd, obj_wall) {
 			yspd = 0;
 		}
-		if place_meeting(x+xspd, y, obj_wall) {
+		if place_meeting(x-xspd, y, obj_wall) {
 			xspd = 0;
 		}
 		
@@ -348,7 +348,7 @@ switch (state) {
 		if place_meeting(x, y + yspd, obj_wall) {
 			yspd = 0;
 		}
-		if place_meeting(x+xspd, y, obj_wall) {
+		if place_meeting(x-xspd, y, obj_wall) {
 			xspd = 0;
 		}
 		
