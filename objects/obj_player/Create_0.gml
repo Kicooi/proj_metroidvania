@@ -1,10 +1,19 @@
+// Initialize variables
 yspd = 6;
 xspd = 0;
+
+pos_y = y;
+pos_x = x;
+right = 0;
+left = 0;
+jump = 0;
+crouch = 0;
 
 move_spd = 2;
 jumping = false;
 crouching = false;
 
+//initialize sprites in an array
 #region SPRITE_ARRAY //Array of 60 Sprites for player movement, action, and animation
 sprite = array_create(60, -1);
 sprite[ATTACK] = _Attack;

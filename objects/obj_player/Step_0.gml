@@ -2,6 +2,8 @@ right = input_check("right");
 left = input_check("left");
 jump = input_check_pressed("accept");
 crouch = input_check("special");
+pos_y = y;
+pos_x = x;
 mask_index = IDLE;
 switch (state) {
 	#region IDLE
