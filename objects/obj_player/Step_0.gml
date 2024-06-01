@@ -9,10 +9,16 @@ switch (state) {
 		xspd = (right-left) * move_spd;
 		yspd = 6;
 		// Collisions 
-		//if place_meeting(x+10, y+yspd, obj_wall) {
-		//	yspd = 0;
-		//}
+		if place_meeting(x, y+yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
+			yspd = 0;
+		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		
@@ -32,9 +38,15 @@ switch (state) {
 		yspd = 6;
 		// Collisions 
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		
@@ -54,9 +66,15 @@ switch (state) {
 		yspd = 6;
 		// Collisions 
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		// Assign Sprites/Change States //
@@ -80,10 +98,16 @@ switch (state) {
 			alarm[0] = 20;
 		}		
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 			//state = IDLE;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		if xspd < 0 {state= JUMP_L}
@@ -101,6 +125,9 @@ switch (state) {
 		}
 		//collison
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		if xspd < 0 {state = JUMPFALL_TRANS_L}
@@ -114,6 +141,9 @@ switch (state) {
 		
 		// Collisions 
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 			if xspd == 0 {
 				state = IDLE;
@@ -123,6 +153,9 @@ switch (state) {
 			}
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		if xspd < 0 {state = FALL_L}
@@ -149,9 +182,15 @@ switch (state) {
 		
 		// Normal Collisions
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		if left > 0 && right == 0 {state = CROUCH_L}
@@ -181,9 +220,15 @@ switch (state) {
 		
 		// Collisions 
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		
@@ -213,13 +258,17 @@ switch (state) {
 		
 		//collison
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
-		
-		
 		
 	break;
 	#endregion
@@ -238,13 +287,17 @@ switch (state) {
 		
 		//collison
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
-		
-		
 		
 	break;
 	#endregion
@@ -265,9 +318,15 @@ switch (state) {
 		
 		// Collisions 
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		
@@ -299,9 +358,15 @@ switch (state) {
 		
 		// Normal Collisions
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		
@@ -324,9 +389,15 @@ switch (state) {
 		yspd = 6;
 		// Collisions 
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 		}
-		if place_meeting(x-xspd, y, obj_wall) {
+		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		
@@ -346,9 +417,15 @@ switch (state) {
 		yspd = 6;
 		// Collisions 
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 		}
-		if place_meeting(x-xspd, y, obj_wall) {
+		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		
@@ -368,9 +445,15 @@ switch (state) {
 		yspd = 6;
 		// Collisions 
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		// Assign Sprites/Change States //
@@ -393,10 +476,16 @@ switch (state) {
 			alarm[0] = 20;
 		}		
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 			//alarm[0] = 1;
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		if xspd > 0 {state = JUMP}
@@ -414,6 +503,9 @@ switch (state) {
 		}
 		//collison
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		if xspd > 0 {state = JUMPFALL_TRANS_L}
@@ -427,6 +519,9 @@ switch (state) {
 		
 		// Collisions 
 		if place_meeting(x, y + yspd, obj_wall) {
+			while (!place_meeting(x,y+sign(yspd),obj_wall)) {
+				y += sign(yspd);
+			}
 			yspd = 0;
 			if xspd == 0 {
 				state = IDLE_L;
@@ -436,6 +531,9 @@ switch (state) {
 			}
 		}
 		if place_meeting(x+xspd, y, obj_wall) {
+			while (!place_meeting(x+sign(xspd),y,obj_wall)) {
+				x += sign(xspd);
+			}
 			xspd = 0;
 		}
 		if xspd > 0 {state = FALL}
